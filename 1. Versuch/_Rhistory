@@ -1,0 +1,172 @@
+install.packages("compute.es")
+install.packages("ggplot2")
+V_H <- 1968 #Hubraum in cm^3
+z <- 4 #Anzahl der Zylinder
+V_h <- V_H/z
+epsilon <- 22/1 #Verdichtungsverhältnis
+epsilon <- (V_h+V_c)/V_c
+V_c <- V_h/(epsilon-1)
+n <- 2000                                             #Umdrehungen in min^(-1)
+n <- 2000                                             #Umdrehungen in min^(-1)
+M_d <- 320                                            #Drehmoment in Nm
+P_max <- 103                                          #Maximale Leistung in kW bei n=4200min^(-1)
+b_eff <- 204                                          #Spezifischer Treifstoffverbrauch in g/kWh
+T_0 <- 293,15                                         #Umgebungstemperatur in K
+T_0 <- 293.15                                         #Umgebungstemperatur in K
+p_0 <- 1                                              #Umgebungsdruck in bar
+R_Luft <- 287                                         #Ideale Gaskonstante in J/kgK
+rho_Luft <- 1.2041                                    #Luftdichte in kg/m^3
+Pi <- 3.14
+b_eff <- 204                                          #Spezifischer Treifstoffverbrauch in g/kWh
+T_0 <- 293.15                                         #Umgebungstemperatur in K
+p_0 <- 1                                              #Umgebungsdruck in bar
+R_Luft <- 287                                         #Ideale Gaskonstante in J/kgK
+rho_Luft <- 1.2041                                    #Luftdichte in kg/m^3
+rho_Diesel <- 0.83                                    #Dichte von Diesel in kg/l
+H_u <- 42.5                                           #Heizwert von Diesel in MJ/kg
+V_E = (1000*P_eff*b_eff*2)/(60*n*z)
+P_eff <- 2*Pi*M_d*n
+P_eff <- 2*Pi*M_d*n/60
+P_eff <- 2*Pi*M_d*n/60000
+V_E = (1000*P_eff*b_eff*2)/(60*n*z)
+V_E = (1000^2*P_eff*b_eff*2)/(60*n*z)
+V_E = (1000^2*P_eff*b_eff*2)/(60*n*z)
+V_E = (P_eff*b_eff*2)/(60000*n*z)
+V_E = (P_eff*b_eff*2)/(60000*n*z)                     #Einspritzvolumen des Diesel in l
+V_Diesel = (P_eff*b_eff*2)/(60000*n*z)                     #Einspritzvolumen des Diesel in l
+m_Diesel
+?rm
+rm(V_E)
+V_Diesel <- (P_eff*b_eff*2)/(60000*n*z)                     #Einspritzvolumen des Diesel in l
+m_Diesel <- V_Diesel*rho_Diesel
+m_Diesel <- V_Diesel*rho_Diesel                       #Masse an Diesel pro Einspritzung in kg
+p_1 = p_0
+V_1 = V_h
+T_1 = T_0
+p_1*V_1 = m_1*R_Luft*T_1
+m_1 = m_Luft <- (p_1*V_1)/(R_Luft*T_1)
+m_1 = m_Luft <- (1000*p_1*10^2*V_1*10^(-6))/(R_Luft*T_1)
+m_1 = m_Luft <- (1000*p_1*10^2*V_1*10^(-6))/(R_Luft*T_1) #Zugeführte Luftmasse in kg
+k <- 1.4
+V_2 = V_c
+T_2 <- T_1* (V_1/V_2)^(k-1)
+V_H <- 1968                                           #Hubraum in cm^3
+z <- 4                                                #Anzahl der Zylinder
+V_h <- V_H/z                                          #Hubvolumen in cm^3
+epsilon <- 22/1                                       #Verdichtungsverhältnis
+V_c <- V_h/(epsilon-1)                                #Kompressionsvolumen in cm^3
+P_max <- 103                                          #Maximale Leistung in kW bei n=4200min^(-1)
+M_d <- 320                                            #Drehmoment in Nm
+n <- 2000                                             #Umdrehungen in min^(-1)
+Pi <- 3.14
+P_eff <- 2*Pi*M_d*n/60000                             #Effektive Leistung bei 2000min^(-1) in kW
+b_eff <- 204                                          #Spezifischer Treifstoffverbrauch in g/kWh
+T_0 <- 293.15                                         #Umgebungstemperatur in K
+p_0 <- 1                                              #Umgebungsdruck in bar
+R_Luft <- 287                                         #Ideale Gaskonstante in J/kgK
+rho_Luft <- 1.2041                                    #Luftdichte in kg/m^3
+rho_Diesel <- 0.83                                    #Dichte von Diesel in kg/l
+H_u <- 42.5                                           #Heizwert von Diesel in MJ/kg
+V_Diesel <- (P_eff*b_eff*2)/(60000*n*z)               #Einspritzvolumen des Diesel in l
+m_Diesel <- V_Diesel*rho_Diesel                       #Masse an Diesel pro Einspritzung in kg
+k <- 1.4
+#1. Ansaugtakt:
+p_1 = p_0                                                #Druck der angesaugten Luft
+V_1 = V_h                                                #Zylindervolumen beim Ansaugtakt
+T_1 = T_0                                                #Temperatur der angesaugten Luft
+m_1 = m_Luft <- (1000*p_1*10^2*V_1*10^(-6))/(R_Luft*T_1) #Zugeführte Luftmasse in kg
+#2. Verdichtungstakt:
+V_2 = V_c                                                #Zylindervolumen nach der Kompression
+T_2 <- T_1* (V_1/V_2)^(k-1)                              #Temperatur nach der Kompression
+p_2 <- p_1*(V_1/V_2)^k                                   #Druck im Zylinder nach der Kompression
+m_2 = m_1
+T_3 <- T_2+(m_Diesel*H_u*10^6)/(m_Luft*c_p)              #Temperatur nach der Verbrennung
+c_p <- 1250                                           #Spezifische Wärmekapazität bei 1000°C in J/kgK
+T_3 <- T_2+(m_Diesel*H_u*10^6)/(m_Luft*c_p)              #Temperatur nach der Verbrennung
+V_3 <- V_2*(T_3/T_2)
+V_3 <- V_2*(T_3/T_2)                                     #Volumen nach der Verbrennung
+p_3 = p_2                                                #Gleichdruckverbrennung
+m_3 <- m_Luft+m_Diesel
+T_3 <- T_2+(m_Diesel*H_u*10^6)/(m_3*c_p)              #Temperatur nach der Verbrennung
+V_3 <- V_2*(T_3/T_2)                                     #Volumen nach der Verbrennung
+p_3 = p_2                                                #Gleichdruckverbrennung
+m_4 = m_3
+V_4 = V_h
+T_4 <- T_3*(V_3/V_4)^(k-1)
+p_4 <- p_3*(T_4/T_3)^(k/k-1)
+p_4 <- p_3*(T_4/T_3)^(k/k-1)
+p_4 <- p_3*(3500/1700)^(k/k-1)
+p_4 <- p_3*(3500/1700)^(3.5)
+p_4 <- p_3*(1700/3500)^(3.5)
+p_4 <- p_3*(T_4/T_3)^(3.5)
+T_4 <- T_3*(V_3/V_4)^(k-1)
+p_4 <- p_3*(T_4/T_3)^(3.5)
+p_4 <- p_3*(T_4/T_3)^(k/k-1)
+p_4 <- p_3*(T_4/T_3)^(1.4/0.4)
+p_4 <- p_3*(T_4/T_3)^(k/0.4)
+p_4 <- p_3*(T_4/T_3)^(k/0.4)
+p_4 <- p_3*(T_4/T_3)^(k/(k-1))
+p_4 <- p_3*(T_4/T_3)^(k/(k-1))
+Ansaugtakt <- (p_1,V_1,m_1,T_1)
+Verdichtungstakt <- (p_2,V_2,m_2,T_2)
+Arbeitstakt <- (p_3,V_3,m_3,T_3)
+Ausstoßtakt <- (p_4,V_4,m_4,T_4)
+Ansaugtakt <- ("p_1","V_1","m_1","T_1")
+Ansaugtakt <- (p_1, V_1, m_1, T_1)
+Ansaugtakt <- (a , b , c ,d)
+Ansaugtakt <- (a  b  c d)
+Ansaugtakt <- c(p_1,V_1,m_1,T_1)
+Verdichtungstakt <- c(p_2,V_2,m_2,T_2)
+Arbeitstakt <- c(p_3,V_3,m_3,T_3)
+Ausstoßtakt <- c(p_4,V_4,m_4,T_4)
+Daten_Tabelle <- data.frame(Ansaugtakt,Verdichtungstakt,Arbeitstakt,Ausstoßtakt)
+View(Daten_Tabelle)
+View(Daten_Tabelle)
+View(Daten_Tabelle)
+Druck<- c(p_1,p_2,p_3,p_4)
+Volumen <- c(V_1,V_2,V_3,V_4)
+Masse <- c(m_1,m_2,m_3,m_4)
+Temperatur <- c(T_1,T_2,T_3,T_4)
+Daten_Tabelle <- data.frame(Ansaugtakt,Verdichtungstakt,Arbeitstakt,Ausstoßtakt)
+View(Daten_Tabelle)
+View(Daten_Tabelle)
+View(Daten_Tabelle)
+View(Daten_Tabelle)
+rm(Verdichtungstakt, Arbeitstakt, Ansaugtakt, Ausstoßtakt)
+Druck<- c(p_1,p_2,p_3,p_4)
+Volumen <- c(V_1,V_2,V_3,V_4)
+Masse <- c(m_1,m_2,m_3,m_4)
+Temperatur <- c(T_1,T_2,T_3,T_4)
+Daten_Tabelle <- data.frame(Ansaugtakt,Verdichtungstakt,Arbeitstakt,Ausstoßtakt)
+Daten_Tabelle <- data.frame(Druck,Volumen,Masse,Temperatur)
+View(Daten_Tabelle)
+Takt <- c("Ansaugtakt","Verdichtungstakt","Arbeitstakt","Ausstoßtakt")
+Druck<- c(p_1,p_2,p_3,p_4)
+Volumen <- c(V_1,V_2,V_3,V_4)
+Masse <- c(m_1,m_2,m_3,m_4)
+Temperatur <- c(T_1,T_2,T_3,T_4)
+Daten_Tabelle <- data.frame(Druck,Volumen,Masse,Temperatur)
+View(Daten_Tabelle)
+Daten_Tabelle <- data.frame(Takt,Druck,Volumen,Masse,Temperatur)
+View(Daten_Tabelle)
+Druck in bar<- c(p_1,p_2,p_3,p_4)
+Druck [bar]<- c(p_1,p_2,p_3,p_4)
+Druck (bar) <- c(p_1,p_2,p_3,p_4)
+Druck in bar <- c(p_1,p_2,p_3,p_4)
+Druck_in_bar <- c(p_1,p_2,p_3,p_4)
+Volumen_in_cm³ <- c(V_1,V_2,V_3,V_4)
+Masse_in_kg <- c(m_1,m_2,m_3,m_4)
+Volumen_in_cm^3 <- c(V_1,V_2,V_3,V_4)
+Volumen_in_ccm <- c(V_1,V_2,V_3,V_4)
+Masse_in_kg <- c(m_1,m_2,m_3,m_4)
+Temperatur_in_K <- c(T_1,T_2,T_3,T_4)
+Daten_Tabelle <- data.frame(Takt,Druck,Volumen,Masse,Temperatur)
+View(Daten_Tabelle)
+Daten_Tabelle <- data.frame(Takt,Druck_in_bar,Volumen_in_ccm,Masse_in_kg,Temperatur_in_K)
+View(Daten_Tabelle)
+rm(Druck,Masse,Volumen,Temperatur)
+rm(Volumen_in_cm³)
+rm(Volumen_in_cm³)
+rm(Volumen_in_cm³)
+Daten_Tabelle <- data.frame(Takt,Druck_in_bar,Volumen_in_ccm,Masse_in_kg,Temperatur_in_K)
+View(Daten_Tabelle)

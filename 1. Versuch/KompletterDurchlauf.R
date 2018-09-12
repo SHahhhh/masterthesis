@@ -1,0 +1,56 @@
+V_H <- 1968                                           #Hubraum in cm^3
+z <- 4                                                #Anzahl der Zylinder
+V_h <- V_H/z                                          #Hubvolumen in cm^3
+epsilon <- 22/1                                       #Verdichtungsverhältnis
+V_c <- V_h/(epsilon-1)                                #Kompressionsvolumen in cm^3
+P_max <- 103                                          #Maximale Leistung in kW bei n=4200min^(-1)
+M_d <- 320                                            #Drehmoment in Nm
+n <- 2000                                             #Umdrehungen in min^(-1)
+Pi <- 3.14
+P_eff <- 2*Pi*M_d*n/60000                             #Effektive Leistung bei 2000min^(-1) in kW
+b_eff <- 204                                          #Spezifischer Treifstoffverbrauch in g/kWh
+T_0 <- 293.15                                         #Umgebungstemperatur in K
+p_0 <- 1                                              #Umgebungsdruck in bar
+R_Luft <- 287                                         #Ideale Gaskonstante in J/kgK
+rho_Luft <- 1.2041                                    #Luftdichte in kg/m^3
+rho_Diesel <- 0.83                                    #Dichte von Diesel in kg/l
+H_u <- 42.5                                           #Heizwert von Diesel in MJ/kg
+V_Diesel <- (P_eff*b_eff*2)/(60000*n*z)               #Einspritzvolumen des Diesel in l
+m_Diesel <- V_Diesel*rho_Diesel                       #Masse an Diesel pro Einspritzung in kg
+k <- 1.4                                              #Isentropenexponent
+c_p <- 1250                                           #Spezifische Wärmekapazität bei 1000°C in J/kgK
+
+#1. Ansaugtakt:
+
+p_1 = p_0                                                #Druck der angesaugten Luft
+V_1 = V_h                                                #Zylindervolumen beim Ansaugtakt
+T_1 = T_0                                                #Temperatur der angesaugten Luft
+m_1 = m_Luft <- (1000*p_1*10^2*V_1*10^(-6))/(R_Luft*T_1) #Zugeführte Luftmasse in kg
+
+#2. Verdichtungstakt:
+
+m_2 = m_1
+V_2 = V_c                                                #Zylindervolumen nach der Kompression
+T_2 <- T_1* (V_1/V_2)^(k-1)                              #Temperatur nach der Kompression
+p_2 <- p_1*(V_1/V_2)^k                                   #Druck im Zylinder nach der Kompression
+
+#3. Arbeitstakt:
+
+m_3 <- m_Luft+m_Diesel                                   #Verbrannte Masse (Luft+Diesel)
+T_3 <- T_2+(m_Diesel*H_u*10^6)/(m_3*c_p)                 #Temperatur nach der Verbrennung
+V_3 <- V_2*(T_3/T_2)                                     #Volumen nach der Verbrennung
+p_3 = p_2                                                #Gleichdruckverbrennung
+
+#4. Ausstoßtakt:
+
+m_4 = m_3                                                #Ausstoßmasse (Verbrannte Luft+Diesel)
+V_4 = V_h                                                #Hubvolumen zu beginn des Ausstoßtaktes
+T_4 <- T_3*(V_3/V_4)^(k-1)                               #Temperatur zu beginn des Ausstoßtaktes
+p_4 <- p_3*(T_4/T_3)^(k/(k-1))                           #Druck zu beginn des Ausstoßtaktes
+
+Takt <- c("Ansaugtakt","Verdichtungstakt","Arbeitstakt","Ausstoßtakt")
+Druck_in_bar <- c(p_1,p_2,p_3,p_4)
+Volumen_in_ccm <- c(V_1,V_2,V_3,V_4)
+Masse_in_kg <- c(m_1,m_2,m_3,m_4)
+Temperatur_in_K <- c(T_1,T_2,T_3,T_4)
+Daten_Tabelle <- data.frame(Takt,Druck_in_bar,Volumen_in_ccm,Masse_in_kg,Temperatur_in_K)
